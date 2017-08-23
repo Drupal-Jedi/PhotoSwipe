@@ -1126,11 +1126,14 @@ _registerModule('Gestures', {
 				_likelyTouchDevice = (navigator.maxTouchPoints > 1) || (navigator.msMaxTouchPoints > 1);
 			}
 			// make variable public
-			self.likelyTouchDevice = _likelyTouchDevice; 
-			
-			_globalEventHandlers[_dragStartEvent] = _onDragStart;
-			_globalEventHandlers[_dragMoveEvent] = _onDragMove;
-			_globalEventHandlers[_dragEndEvent] = _onDragRelease; // the Kraken
+			self.likelyTouchDevice = _likelyTouchDevice;
+
+      // Ensure if we need attach drag events at all.
+      if (_pointerEventEnabled || _features.touch || !_options.disableDesktopPan) {
+        _globalEventHandlers[_dragStartEvent] = _onDragStart;
+        _globalEventHandlers[_dragMoveEvent] = _onDragMove;
+        _globalEventHandlers[_dragEndEvent] = _onDragRelease; // the Kraken
+      }
 
 			if(_dragCancelEvent) {
 				_globalEventHandlers[_dragCancelEvent] = _globalEventHandlers[_dragEndEvent];
